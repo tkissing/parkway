@@ -52,23 +52,21 @@ module.exports = (function() {
 		var baseDir = path.dirname(module.filename);
 		var routeDir = path.join(baseDir, dir);
 
-		// console.log('getRoutes', urlPrefix, dir, routeDir);
-
 		fs.readdirSync(routeDir).forEach(function(filename) {
-			var name = filename.substring(0, filename.lastIndexOf('.'))
+			var name = filename.substring(0, filename.lastIndexOf('.'));
 			var joined = path.join(routeDir, filename);
 
-			//console.log('joined', name, filename, joined);
+			// console.log('joined', name, filename, joined);
 
 			if (fs.statSync(joined).isDirectory()) {
-				subdirs.push({path: trailingSlash(joined), url: path.join(urlPrefix, filename)});
+				subdirs.push({dir: path.join(dir, filename), url: path.join(urlPrefix, filename)});
 			} else if (defaultDelegate(joined, filename)) {
 				mergeRoute(result, joined, [urlPrefix, name].join(''));
 			}
     	});
 
     	subdirs.forEach(function(folder) {
-    		mergeRoute(result, folder.path, folder.url);
+    		getRoutes(module, folder.dir, folder.url, result);
     	});
 
 		return result;
@@ -79,6 +77,7 @@ module.exports = (function() {
 
 		_.each(routes, function(value, key) {
 			_.each(value, function(handler, method) {
+				// console.log('registering ' + method + ' handler for ' + key);
 				app[method](key, handler);
 			});
 		})
