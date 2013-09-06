@@ -3,8 +3,16 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = (function() {
+	var noIndex = function(str) {
+		return String(str).replace(/\/index$/, '/').toLowerCase();
+	};
+
+	var noSlash = function(str) {
+		return String(str).replace(/\/+$/, '');
+	}
+
 	var trailingSlash  = function(str) {
-		return String(str).replace(/\/+$/, '') + '/';
+		return noSlash(str) + '/';
 	};
 
 	var defaultDelegate = function(path, filename){
@@ -15,7 +23,8 @@ module.exports = (function() {
   	var methods = ['get', 'post', 'put', 'delete', 'options'];
 
   	var doMergeRoute = function(existingRoutes, routeModule, routeUrl) {
-  		var r = existingRoutes[routeUrl] || {};
+  		var name = noSlash(noIndex(routeUrl)) || '/';
+  		var r = existingRoutes[name] || {};
   		var s = {};
 
   		_.each(routeModule, function(value, key) {
@@ -27,12 +36,12 @@ module.exports = (function() {
   		});
 
   		_.each(s, function(value, key) {
-  			doMergeRoute(existingRoutes, value, path.join(routeUrl, key));
+  			doMergeRoute(existingRoutes, value, path.join(name, key));
   		});
 
 		//console.log('domergeRoute', routeUrl, existingRoutes, r, s);
 
-  		existingRoutes[routeUrl.replace(/\/index$/, '/').toLowerCase()] = r;	
+  		existingRoutes[name] = r;	
   	}
 
   	var mergeRoute = function(existingRoutes, routePath, routeUrl) {
@@ -77,7 +86,7 @@ module.exports = (function() {
 
 		_.each(routes, function(value, key) {
 			_.each(value, function(handler, method) {
-				// console.log('registering ' + method + ' handler for ' + key);
+				// console.log('registering ' + method + ' handler for ' + key, handler);
 				app[method](key, handler);
 			});
 		})
