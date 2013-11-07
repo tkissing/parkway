@@ -3,12 +3,20 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = (function() {
+    var makeUrl = function(str) {
+        if (path.sep == '/') {
+            return String(str);
+        }
+
+        return String(str).replace(path.sep, '/', 'g').replace(path.sep, '/', 'g');
+    };
+
     var noIndex = function(str) {
-        return String(str).replace(path.sep, '/', 'g').replace(/\/index$/, '/').toLowerCase();
+        return makeUrl(str).replace(/\/index$/, '/').toLowerCase();
     };
 
     var noSlash = function(str) {
-        return String(str).replace(path.sep, '/', 'g').replace(/\/+$/, '');
+        return makeUrl(str).replace(/\/+$/, '');
     };
 
     var trailingSlash  = function(str) {
@@ -39,7 +47,7 @@ module.exports = (function() {
             doMergeRoute(existingRoutes, value, path.join(name, key));
         });
 
-        console.log('domergeRoute', routeUrl, existingRoutes, r, s);
+        //console.log('domergeRoute', routeUrl, name, r, s);
 
         existingRoutes[name] = r;
     };
