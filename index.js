@@ -93,7 +93,7 @@ module.exports = (function() {
 
         _.each(routes, function(value, key) {
             _.each(value, function(handler, method) {
-                console.log('registering ' + method + ' handler for ' + key, handler);
+                // console.log('registering ' + method + ' handler for ' + key, handler);
                 app[method](key, handler);
             });
         });
