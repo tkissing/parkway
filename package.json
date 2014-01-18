@@ -7,6 +7,7 @@
     "test": "./node_modules/.bin/mocha -R spec"
   },
   "author": "Timo Kissing <timo.kissing@gmail.com>",
+  "repository": "https://github.com/tkissing/parkway",
   "license": "MIT",
   "dependencies": {
     "underscore": "~1.5.1"
