@@ -1,0 +1,14 @@
+{
+  "name": "parkway",
+  "version": "0.1.0",
+  "description": "Convention-based routing for express apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Timo Kissing <timo.kissing@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "underscore": "~1.5.1"
+  }
+}
