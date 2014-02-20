@@ -1,6 +1,6 @@
 {
   "name": "parkway",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Convention-based routing for express apps",
   "main": "index.js",
   "scripts": {
