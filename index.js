@@ -6,9 +6,11 @@ module.exports = (function() {
     var makeUrl = function(str) {
         if (path.sep == '/') {
             return String(str);
+        } else if (path.sep == '\\') {
+            return String(str).replace(path.sep, '/', 'g').replace(path.sep, '/', 'g');
         }
 
-        return String(str).replace(path.sep, '/', 'g').replace(path.sep, '/', 'g');
+        throw new Error('Unsupported path.sep ' + path.sep);
     };
 
     var noIndex = function(str) {
@@ -72,7 +74,7 @@ module.exports = (function() {
             var name = filename.substring(0, filename.lastIndexOf('.'));
             var joined = path.join(routeDir, filename);
 
-            // console.log('joined', name, filename, joined);
+            //console.log('joined', name, filename, joined);
 
             if (fs.statSync(joined).isDirectory()) {
                 subdirs.push({dir: path.join(dir, filename), url: path.join(urlPrefix, filename)});
