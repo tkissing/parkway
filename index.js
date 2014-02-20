@@ -7,7 +7,7 @@ module.exports = (function() {
         if (path.sep == '/') {
             return String(str);
         } else if (path.sep == '\\') {
-            return String(str).replace(path.sep, '/', 'g').replace(path.sep, '/', 'g');
+            return String(str).replace(/\\/g, '/');
         }
 
         throw new Error('Unsupported path.sep ' + path.sep);
